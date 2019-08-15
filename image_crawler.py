@@ -2,9 +2,11 @@
 from google_images_download import google_images_download
 
 # setting arguments
-LIMIT_NUM = 600
+# supporting multiple keywords, e.g. "Keyword1,Keyword2,Keyword3"
 KEYWORDS = "Immigration Museum Melbourne"
+LIMIT_NUM = 600  # per keyword
 OUTPUT_PATH = "E:\\landmarks_of_melbourne"
+CHROMEDRIVER_PATH = r"C:\Users\PC-user\Downloads\chromedriver.exe"
 
 # class instantiation
 response = google_images_download.googleimagesdownload()
@@ -15,7 +17,7 @@ arguments = {"keywords": KEYWORDS,
              "print_urls": True,
              "output_directory": OUTPUT_PATH,
              "size": ">400*300",
-             "chromedriver": r"C:\Users\PC-user\Downloads\chromedriver.exe"}
+             "chromedriver": CHROMEDRIVER_PATH}
 
 # passing the arguments to the function
 paths = response.download(arguments)
