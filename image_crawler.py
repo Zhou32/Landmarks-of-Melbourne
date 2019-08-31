@@ -5,7 +5,7 @@ from google_images_download import google_images_download
 # supporting multiple keywords, e.g. "Keyword1,Keyword2,Keyword3"
 KEYWORDS = "Immigration Museum Melbourne"
 LIMIT_NUM = 600  # per keyword
-OUTPUT_PATH = "E:\\landmarks_of_melbourne"
+OUTPUT_PATH = r"E:\landmarks_of_melbourne"
 CHROMEDRIVER_PATH = r"C:\Users\PC-user\Downloads\chromedriver.exe"
 
 # class instantiation

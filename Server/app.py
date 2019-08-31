@@ -9,6 +9,7 @@ from flask_restplus import Api, Resource
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 import tensorflow as tf
+import time
 
 
 global graph, model, lb
@@ -34,12 +35,22 @@ with graph.as_default():
     lb = pickle.loads(open("./model/lb-sml", "rb").read())
 
 
+# Timer
+def print_run_time(func):
+    def wrapper(*args, **kw):
+        local_time = time.time()
+        result = func(*args, **kw)
+        print('current Function [%s] run time is %.2f ms' % (func.__name__, (time.time() - local_time)*1000))
+        return result
+    return wrapper
+
+
 # Todo: Moving to Utils
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-
+@print_run_time
 def predict(image_path):
     with graph.as_default():
         image = cv2.imread(image_path)
@@ -81,6 +92,6 @@ class ImagePredicate(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=80)
 
 
