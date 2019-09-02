@@ -2,7 +2,6 @@ import os
 from hashlib import md5
 import time
 
-starttime = time.time()
 
 # generate hash value for file
 def file_hash(filepath):
@@ -29,10 +28,12 @@ def remove_duplicates(path):
     duplicates = []
     hash_keys = {}
 
+    print(f"Scanning path {path}")
     files_list = os.listdir(path)
+    print(f"{len(files_list)} files found")
 
     for index, filename in enumerate(files_list):
-        filepath=path+"\\"+filename
+        filepath = path + "\\" + filename
         if os.path.isfile(filepath):
             filehash = file_hash(filepath)
         if filehash not in hash_keys.keys():  # a novel image
@@ -44,9 +45,14 @@ def remove_duplicates(path):
     for index, _ in duplicates:
         filepath = path + "\\" + files_list[index]
         os.remove(filepath)
+        print(f"File {files_list[index]} removed successfully")
+    print(f"All {len(duplicates)} duplicates have been removed")
 
-path = r"E:\mixed\Flinders Street Station"
-remove_duplicates(path)
 
-endtime = time.time()
-print('\nTotal time: %f seconds.' % (endtime - starttime))
+PATH = r"E:\mixed\Flinders Street Station"
+
+if __name__ == "__main__":
+    starttime = time.time()
+    remove_duplicates(PATH)
+    endtime = time.time()
+    print('\nTotal time: %f seconds.' % (endtime - starttime))
