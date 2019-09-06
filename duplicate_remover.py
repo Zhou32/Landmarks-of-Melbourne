@@ -48,8 +48,8 @@ def remove_duplicates(path):
         print(f"File {files_list[index]} removed successfully")
     print(f"All {len(duplicates)} duplicates have been removed")
 
-
-PATH = r"E:\mixed\Flinders Street Station"
+# edit path below
+PATH = r"E:\dataset15\St Paul's Cathedral Melbourne"
 
 if __name__ == "__main__":
     starttime = time.time()
