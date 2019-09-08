@@ -1,16 +1,16 @@
-Index,Landmark,Searched Name,Count,coordinate
-1,Arts Centre,Arts Centre Melbourne,207,"-37.820181, 144.968087"
-2,Brighton Bathing Boxes,Brighton Bathing Boxes,401,"-37.917722, 144.986612"
-3,Chinatown,Chinatown Melbourne,627,"-37.812201, 144.966352"
-4,Cooks' Cottage,Cooks' Cottage,475,"-37.814502, 144.979452"
-5,Eureka Tower,Eureka Tower,386,"-37.821455, 144.964694"
-6,Federation Square,Federation Square,431,"-37.817939, 144.968358"
-7,Flinders Street Station,Flinders Street Station,552,"-37.818328, 144.966969"
-8,GPO(General Post Office),General Post Office Melbourne,106,"-37.813721, 144.963315"
-9,Hosier Lane,Hosier Lane,494,"-37.816292, 144.969049"
-10,Immigration Museum,Immigration Museum Melbourne,144,"-37.819249, 144.960394"
-11,NGV(National Gallery of Victoria),NGV,147,"-37.822571, 144.969226"
-12,Royal Exhibition Building,Royal Exhibition Building,360,"-37.804764, 144.971539"
-13,Shrine of Remembrance,Shrine of Remembrance,410,"-37.830528, 144.973459"
-14,St Patrick's Cathedral,St Patrick's Cathedral Melbourne,473,"-37.810094, 144.976427"
-15,St Paul's Cathedral,St Paul's Cathedral Melbourne,547,"-37.817043, 144.967698"
+Index,Landmark,Searched Name,Label Name,Count,Coordinate,Description
+1,Arts Centre,Arts Centre Melbourne,Arts Centre,207,"-37.820181, 144.968087",
+2,Brighton Bathing Boxes,Brighton Bathing Boxes,Brighton Bathing Boxes,401,"-37.917722, 144.986612",
+3,Chinatown,Chinatown Melbourne,Chinatown,627,"-37.812201, 144.966352",
+4,Cooks' Cottage,Cooks' Cottage,Cooks' Cottage,475,"-37.814502, 144.979452",
+5,Eureka Tower,Eureka Tower,Eureka Tower,386,"-37.821455, 144.964694",
+6,Federation Square,Federation Square,Federation Square,431,"-37.817939, 144.968358",
+7,Flinders Street Station,Flinders Street Station,Flinders Street Station,552,"-37.818328, 144.966969",
+8,GPO(General Post Office),General Post Office Melbourne,General Post Office,106,"-37.813721, 144.963315",
+9,Hosier Lane,Hosier Lane,Hosier Lane,494,"-37.816292, 144.969049",
+10,Immigration Museum,Immigration Museum Melbourne,Immigration Museum,144,"-37.819249, 144.960394",
+11,NGV(National Gallery of Victoria),NGV,National Gallery of Victoria,147,"-37.822571, 144.969226",
+12,REB(Royal Exhibition Building),Royal Exhibition Building,Royal Exhibition Building,360,"-37.804764, 144.971539",
+13,Shrine of Remembrance,Shrine of Remembrance,Shrine of Remembrance,410,"-37.830528, 144.973459",
+14,St Patrick's Cathedral,St Patrick's Cathedral Melbourne,St Patrick's Cathedral,473,"-37.810094, 144.976427",
+15,St Paul's Cathedral,St Paul's Cathedral Melbourne,St Paul's Cathedral,547,"-37.817043, 144.967698",
