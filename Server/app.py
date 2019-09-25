@@ -12,7 +12,11 @@ from keras.preprocessing.image import img_to_array
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-global graph, MobileNet_model, MobileNet_label
+global graph,   MobileNet_model, MobileNet_label, \
+                InceptionV3_model, InceptionV3_label, \
+                ResNet50_model, ResNet50_label, \
+                Xception_model, Xception_label
+
 graph = tf.get_default_graph()
 
 UPLOAD_FOLDER = './image'
