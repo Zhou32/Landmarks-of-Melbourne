@@ -29,22 +29,22 @@ OUTPUT_PATH = r"C:\Users\PC-user\Dropbox\workspace-python\Landmarks-of-Melbourne
 
 # load the class labels
 print("[INFO] loading class labels from label binarizer")
-lb = pickle.loads(open(LABEL_PATH, "rb").read())
-class_labels = lb.classes_.tolist()
+MobileNet_label = pickle.loads(open(LABEL_PATH, "rb").read())
+class_labels = MobileNet_label.classes_.tolist()
 print("[INFO] class labels: {}".format(class_labels))
 
 # load the trained convolutional neural network
 print("[INFO] loading model...")
-model = load_model(MODEL_PATH)
+MobileNet_model = load_model(MODEL_PATH)
 
 # convert the model to coreml format
 print("[INFO] converting model")
-coreml_model = coremltools.converters.keras.convert(model,
-	input_names="image",
-	image_input_names="image",
-	image_scale=1/255.0,
-	class_labels=class_labels,
-	is_bgr=True)
+coreml_model = coremltools.converters.keras.convert(MobileNet_model,
+                                                    input_names="image",
+                                                    image_input_names="image",
+                                                    image_scale=1/255.0,
+                                                    class_labels=class_labels,
+                                                    is_bgr=True)
 
 # save the model to disk
 output = OUTPUT_PATH + ".mlmodel"

@@ -24,13 +24,13 @@ import pickle
 import cv2
 import os
 import tensorflow as tf
-global graph,model
+global graph,MobileNet_model
 graph = tf.get_default_graph()
 
 # Load model
-model = load_model("model/model-sml")
+MobileNet_model = load_model("model/model-sml")
 # Load label encoder
-lb = pickle.loads(open("model/lb-sml", "rb").read())
+MobileNet_label = pickle.loads(open("model/lb-sml", "rb").read())
 
 
 def predict(image_path):
@@ -43,8 +43,8 @@ def predict(image_path):
     image = np.expand_dims(image, axis=0)
     
     with graph.as_default():
-        proba = model.predict(image)[0]
+        proba = MobileNet_model.predict(image)[0]
     idx = np.argmax(proba)
-    label = lb.classes_[idx]
+    label = MobileNet_label.classes_[idx]
     
     return label
