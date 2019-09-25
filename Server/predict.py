@@ -30,7 +30,7 @@ graph = tf.get_default_graph()
 # Load model
 MobileNet_model = load_model("model/model-sml")
 # Load label encoder
-MobileNet_label = pickle.loads(open("model/lb-sml", "rb").read())
+label_encoder = pickle.loads(open("model/lb-sml", "rb").read())
 
 
 def predict(image_path):
@@ -45,6 +45,6 @@ def predict(image_path):
     with graph.as_default():
         proba = MobileNet_model.predict(image)[0]
     idx = np.argmax(proba)
-    label = MobileNet_label.classes_[idx]
+    label = label_encoder.classes_[idx]
     
     return label

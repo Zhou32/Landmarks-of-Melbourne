@@ -12,10 +12,7 @@ from keras.preprocessing.image import img_to_array
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-global graph,   MobileNet_model, MobileNet_label, \
-                InceptionV3_model, InceptionV3_label, \
-                ResNet50_model, ResNet50_label, \
-                Xception_model, Xception_label
+global graph, MobileNet_model, InceptionV3_model, ResNet50_model, Xception_model, label_encoder
 
 graph = tf.get_default_graph()
 
@@ -33,18 +30,13 @@ parser.add_argument('file', type=FileStorage, location='files', required=True)
 
 with graph.as_default():
     # Load model
-    MobileNet_model = load_model("./model/model-sml")
+    MobileNet_model = load_model("./model/MobileNetV2-dataset15-224")
     InceptionV3_model = load_model("./model/InceptionV3-dataset15-d299-e15")
     ResNet50_model = load_model("./model/ResNet50-dataset15-d299-e15")
     Xception_model = load_model("./model/Xception-dataset15-d299-e15")
 
     # Load label encoder
-    MobileNet_label = pickle.loads(open("./model/lb-sml", "rb").read())
-
-    # TODO: Add label encoders respectively
-    InceptionV3_label = pickle.loads(open("./model/lb-sml", "rb").read())
-    ResNet50_label = pickle.loads(open("./model/lb-sml", "rb").read())
-    Xception_label = pickle.loads(open("./model/lb-sml", "rb").read())
+    label_encoder = pickle.loads(open("./model/label_binarizer-dataset15", "rb").read())
 
 
 # Timer
@@ -69,33 +61,49 @@ def predict(image_path, model_name):
     with graph.as_default():
         image = cv2.imread(image_path)
 
-        image = cv2.resize(image, (224, 224))
-        image = image.astype("float") / 255.0
-        image = img_to_array(image)
-        image = np.expand_dims(image, axis=0)
-
+        # TODO: Simplify code when change model MobileNet dimensions to 299
         if model_name == "MobileNet_model":
+            image = cv2.resize(image, (224, 224))
+            image = image.astype("float") / 255.0
+            image = img_to_array(image)
+            image = np.expand_dims(image, axis=0)
+
             proba = MobileNet_model.predict(image)[0]
             idx = np.argmax(proba)
-            label = MobileNet_label.classes_[idx]
+            label = label_encoder.classes_[idx]
             return label
 
         if model_name == "InceptionV3_model":
+            image = cv2.resize(image, (299, 299))
+            image = image.astype("float") / 255.0
+            image = img_to_array(image)
+            image = np.expand_dims(image, axis=0)
+
             proba = InceptionV3_model.predict(image)[0]
             idx = np.argmax(proba)
-            label = InceptionV3_label.classes_[idx]
+            label = label_encoder.classes_[idx]
             return label
 
         if model_name == "ResNet50_model":
+            image = cv2.resize(image, (299, 299))
+            image = image.astype("float") / 255.0
+            image = img_to_array(image)
+            image = np.expand_dims(image, axis=0)
+
             proba = ResNet50_model.predict(image)[0]
             idx = np.argmax(proba)
-            label = ResNet50_label.classes_[idx]
+            label = label_encoder.classes_[idx]
             return label
 
         if model_name == "Xception_model":
+            image = cv2.resize(image, (299, 299))
+            image = image.astype("float") / 255.0
+            image = img_to_array(image)
+            image = np.expand_dims(image, axis=0)
+
             proba = Xception_model.predict(image)[0]
             idx = np.argmax(proba)
-            label = Xception_label.classes_[idx]
+            label = label_encoder.classes_[idx]
             return label
 
 
