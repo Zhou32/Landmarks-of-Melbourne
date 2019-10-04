@@ -30,9 +30,16 @@ parser.add_argument('file', type=FileStorage, location='files', required=True)
 
 with graph.as_default():
     # Load model
-    MobileNet_model = load_model("./model/MobileNetV2-dataset15-d224-e15")
+    print("Loading MobileNet_model...")
+    MobileNet_model = load_model("./model/MobileNetV2-dataset15-224")
+
+    print("Loading InceptionV3_model...")
     InceptionV3_model = load_model("./model/InceptionV3-dataset15-d299-e15")
+
+    print("Loading ResNet50_model...")
     ResNet50_model = load_model("./model/ResNet50-dataset15-d299-e15")
+
+    print("Loading Xception_model...")
     Xception_model = load_model("./model/Xception-dataset15-d299-e15")
 
     # Load label encoder
