@@ -1,3 +1,4 @@
+import csv
 import os
 import pickle
 import time
@@ -28,10 +29,25 @@ api = Api(app,
 parser = api.parser()
 parser.add_argument('file', type=FileStorage, location='files', required=True)
 
+# loading CSV
+csv_path = "./description/dataset15-metadata.csv"
+
+landmarks_description = {}
+landmarks_coordinate = {}
+landmarks_imageUrl = {}
+
+with open(csv_path) as csv_file:
+    csv_content = csv.DictReader(csv_file)
+    for row in csv_content:
+        name = row["Landmark"]
+        landmarks_description[name] = row["Description"]
+        landmarks_coordinate[name] = row["Coordinate"]
+        landmarks_imageUrl[name] = row["Image URL"]
+
 with graph.as_default():
     # Load model
     print("Loading MobileNet_model...")
-    MobileNet_model = load_model("./model/MobileNetV2-dataset15-224")
+    MobileNet_model = load_model("./model/MobileNetV2-dataset15-d224-e15")
 
     print("Loading InceptionV3_model...")
     InceptionV3_model = load_model("./model/InceptionV3-dataset15-d299-e15")
@@ -41,7 +57,7 @@ with graph.as_default():
 
     print("Loading Xception_model...")
     Xception_model = load_model("./model/Xception-dataset15-d299-e15")
-
+    #
     # Load label encoder
     label_encoder = pickle.loads(open("./model/label_binarizer-dataset15", "rb").read())
 
@@ -68,8 +84,7 @@ def predict(image_path, model_name):
     with graph.as_default():
         image = cv2.imread(image_path)
 
-        # TODO: Simplify code when change model MobileNet dimensions to 299
-        if model_name == "MobileNet_model":
+        if model_name == "MobileNet":
             image = cv2.resize(image, (224, 224))
             image = image.astype("float") / 255.0
             image = img_to_array(image)
@@ -80,7 +95,7 @@ def predict(image_path, model_name):
             label = label_encoder.classes_[idx]
             return label
 
-        if model_name == "InceptionV3_model":
+        elif model_name == "InceptionV3":
             image = cv2.resize(image, (299, 299))
             image = image.astype("float") / 255.0
             image = img_to_array(image)
@@ -91,7 +106,7 @@ def predict(image_path, model_name):
             label = label_encoder.classes_[idx]
             return label
 
-        if model_name == "ResNet50_model":
+        elif model_name == "ResNet50":
             image = cv2.resize(image, (299, 299))
             image = image.astype("float") / 255.0
             image = img_to_array(image)
@@ -102,7 +117,7 @@ def predict(image_path, model_name):
             label = label_encoder.classes_[idx]
             return label
 
-        if model_name == "Xception_model":
+        elif model_name == "Xception":
             image = cv2.resize(image, (299, 299))
             image = image.astype("float") / 255.0
             image = img_to_array(image)
@@ -112,6 +127,9 @@ def predict(image_path, model_name):
             idx = np.argmax(proba)
             label = label_encoder.classes_[idx]
             return label
+
+        else:
+            return "Model name error!"
 
 
 @api.route('/upload_image')
@@ -134,13 +152,31 @@ class ImagePredicate(Resource):
         if image_file and allowed_file(image_file.filename):
             filename = secure_filename(image_file.filename)
             image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            if model_name in ["MobileNet_model", "InceptionV3_model", "ResNet50_model", "Xception_model"]:
-                label = predict(os.path.join(app.config['UPLOAD_FOLDER'], filename), model_name)
-                return label
-            return "Invalid model name!"
+            label = predict(os.path.join(app.config['UPLOAD_FOLDER'], filename), model_name)
+
+            return label
         else:
             return "Invalid image!"
 
 
+@api.route('/get_description')
+class GetDescription(Resource):
+    @api.response(200, "Success!")
+    @api.response(404, "The parameter is invaild!")
+    @api.doc(params={'Label_name': "Landmark\'s label name"})
+    def post(self):
+        landmark_name = request.values["Label_name"]
+
+        if landmark_name in landmarks_description:
+            return {
+                    "description":landmarks_description[landmark_name],
+                    "coordinate":landmarks_coordinate[landmark_name],
+                    "imageUrl":landmarks_imageUrl[landmark_name]
+                    }
+        else:
+            return "Invalid parameters!", 404
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=80)
+
