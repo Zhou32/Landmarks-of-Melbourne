@@ -3,11 +3,11 @@ from google_images_download import google_images_download
 
 # setting arguments
 # supporting multiple keywords, e.g. "Keyword1,Keyword2,Keyword3"
-KEYWORDS = "Hosier Lane"
-LIMIT_NUM = 200  # per keyword
-OUTPUT_PATH = r"E:\landmarks_of_melbourne"
+KEYWORDS = "Melbourne Lonsdale Street"
+LIMIT_NUM = 100  # per keyword
+OUTPUT_PATH = r"E:\dataset-street"
 CHROMEDRIVER_PATH = r"C:\Users\PC-user\Downloads\chromedriver.exe"
-CHROMEDRIVER_PATH = r"C:\Users\Administrator\Downloads\chromedriver.exe"
+# CHROMEDRIVER_PATH = r"C:\Users\Administrator\Downloads\chromedriver.exe"
 
 # class instantiation
 response = google_images_download.googleimagesdownload()
