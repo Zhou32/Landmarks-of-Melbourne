@@ -5,3 +5,10 @@
 .ipynb_checkpoints/model training-split-ResNet50-checkpoint.ipynb
 .ipynb_checkpoints/model training-split-Xecption-checkpoint.ipynb
 .ipynb_checkpoints/model training-street-checkpoint.ipynb
+output/ResNet50-dataset15-d299-e15
+output/InceptionV3-dataset15-d299-e15
+output/MobileNetV2-dataset15-d224-e15
+output/old/label_binarizer-dataset12
+output/old/MobileNetV2-dataset12-224
+output/old/MobileNetV2-dataset15-224
+output/Xception-dataset15-d299-e15
