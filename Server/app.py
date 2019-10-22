@@ -44,20 +44,20 @@ with open(landmarks_csv_path) as landmarks_csv_file:
         landmarks_coordinate[name] = row["Coordinate"]
         landmarks_imageUrl[name] = row["Image URL"]
 
-# # loading Street CSV
-# street_view_csv_path = "./description/street.csv"
-#
-# street_description = {}
-# street_imageUrl = {}
-# street_viewUrl = {}
-#
-# with open(street_view_csv_path) as street_csv_file:
-#     csv_content = csv.DictReader(street_csv_file)
-#     for row in csv_content:
-#         name = row["Street"]
-#         street_description[name] = row["Description"]
-#         street_imageUrl[name] = row["Image URL"]
-#         street_viewUrl[name] = row["View URL"]
+# loading Street CSV
+street_view_csv_path = "./description/dataset10-metadata.csv"
+
+street_description = {}
+street_imageUrl = {}
+street_viewUrl = {}
+
+with open(street_view_csv_path) as street_csv_file:
+    csv_content = csv.DictReader(street_csv_file)
+    for row in csv_content:
+        name = row["Street"]
+        street_description[name] = row["Description"]
+        street_imageUrl[name] = row["Image URL"]
+        street_viewUrl[name] = row["View URL"]
 
 
 with graph.as_default():
@@ -74,8 +74,14 @@ with graph.as_default():
     print("Loading Xception_model...")
     Xception_model = load_model("./model/Xception-dataset15-d299-e15")
 
-    # Load label encoder
+    print("Loading Street View Model...")
+    StreetViewModel = load_model("./model/Street_Model")
+
+    # Load landmarks label encoder
     landmarks_label_encoder = pickle.loads(open("./model/label_binarizer-dataset15", "rb").read())
+
+    # Load street label encoder
+    street_label_encoder = pickle.loads(open("./model/lb-street", "rb").read())
 
 
 # Timer
@@ -236,7 +242,7 @@ class StreetPredicate(Resource):
 
 
 @api.route('/street_collection')
-class StreetPredicate(Resource):
+class StreetCollection(Resource):
     @api.response(200, "Success to get the image.")
     @api.response(404, "The upload image may be invalid!")
     @api.doc(params={'file': 'upload image'})
@@ -255,7 +261,12 @@ class StreetPredicate(Resource):
     def process_image(self, image, image_label):
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], image_label, filename))
+            file_folder_path = os.path.join(app.config['UPLOAD_FOLDER'], image_label)
+
+            if not os.path.exists(file_folder_path):
+                os.makedirs(file_folder_path)
+
+            image.save(os.path.join(file_folder_path, filename))
         else:
             return "Invalid image!", 400
 
